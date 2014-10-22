@@ -1,7 +1,5 @@
 package tuto;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -18,11 +16,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.InputStream;
 
-import javax.swing.BorderFactory;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JScrollBar;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -37,41 +31,40 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
-import com.hp.hpl.jena.sparql.algebra.table.Table1;
 import com.hp.hpl.jena.util.FileManager;
 
-import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+@SuppressWarnings("serial")
 public class int_rdf extends JFrame {
 
 	private JPanel panel1;
 	private JTextField textField;
-    private int_rdf frame;
     private JTable table;
-	
-	
+    private int i=0;
 
-	/**
-	 * creation du Jframe pour le resultat
-	 */
-	
-	 
-	 
 	private void ouvrir_fichier(java.awt.event.ActionEvent evt)  {  
-	    	
-    	 String inputFileName ;
+	    // choix d'un fichier rdf 
+    	String inputFileName ;
         JFileChooser chooser=new JFileChooser();
         chooser.showOpenDialog(null);
         File f=chooser.getSelectedFile();
         String filename=f.getAbsolutePath();
         inputFileName= filename;
+        
+        // vider la table 
+        i=table.getRowCount();
+        i--;
+        //System.out.print(j);
+        for(int p=0;p<=i;p++){
+          ((DefaultTableModel)table.getModel()).removeRow(0);
+        }
        
         textField.setText(filename);
         
-     // créer un modèle vide
-     		 Model model = ModelFactory.createDefaultModel();
+        // créer un modèle vide
+     	Model model = ModelFactory.createDefaultModel();
      		 
      		 
      		 // utiliser le FileManager pour trouver le fichier d'entrée
@@ -80,10 +73,10 @@ public class int_rdf extends JFrame {
      		    throw new IllegalArgumentException(
      		                                 "Fichier: " + inputFileName + " non trouvé");
         
-    }                                       
+        }                                       
     	
-	model.read(in, null);
-	 StmtIterator iter = model.listStatements();
+	    model.read(in, null);
+	    StmtIterator iter = model.listStatements();
 	 
 		while (iter.hasNext()) {
          Statement stmt      = iter.nextStatement(); // get next statement
@@ -94,7 +87,7 @@ public class int_rdf extends JFrame {
          mod.addRow(new Object[]{subject,predicate,object});
       
 		}
-}
+   }
 	
 	public int_rdf() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -157,9 +150,11 @@ public class int_rdf extends JFrame {
 				 "Sujet", "Predicat", "Objet"
 			}
 		) {
+			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 				String.class, Object.class, String.class, String.class
 			};
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}

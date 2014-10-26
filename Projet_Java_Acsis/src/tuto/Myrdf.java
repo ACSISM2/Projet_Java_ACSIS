@@ -1,6 +1,7 @@
 package tuto;
 
 import java.io.InputStream;
+
 import javax.swing.JTable;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
@@ -19,6 +20,8 @@ public class Myrdf {
 		/////////////////////////////////////////////////////
 		
 			public Model lire_fichier_rdf (String inputFileName){
+				
+			
 	    	// créer un modèle vide
 	     	Model model = ModelFactory.createDefaultModel();
 	     	// utiliser le FileManager pour trouver le fichier d'entrée
@@ -27,13 +30,16 @@ public class Myrdf {
 	     				throw new IllegalArgumentException(
 	     						"Fichier: " + inputFileName + " non trouvé");    
 	     			}                                       
-	     			else	model.read(in, null);
+	     			model.read(in, null);
 	     			return model;
 		}	
 		///////////// affichage du rdf dans la Jtable
 		
 		 public void affichage_rdf_Jtable (Model model,JTable Table)
 		    {
+			//on vide la table au moment de l'affiche
+			   Interface.traite.vider_Jtable(Interface.table);
+			 //--------------------------------------------------------------
 		    	 StmtIterator iter = model.listStatements();
 		 		while (iter.hasNext()) {
 		          Statement stmt      = iter.nextStatement();    // get next statement

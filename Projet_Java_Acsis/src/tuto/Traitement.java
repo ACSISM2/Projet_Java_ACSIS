@@ -27,7 +27,7 @@ public class Traitement {
      
         File f=chooser.getSelectedFile();
         filename=f.getAbsolutePath();
-       System.out.println(filename);
+     
        
 		  return filename;
 }

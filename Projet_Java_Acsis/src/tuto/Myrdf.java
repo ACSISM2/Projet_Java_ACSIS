@@ -27,7 +27,7 @@ public class Myrdf {
 	     				throw new IllegalArgumentException(
 	     						"Fichier: " + inputFileName + " non trouvé");    
 	     			}                                       
-	     			model.read(in, null);
+	     			else	model.read(in, null);
 	     			return model;
 		}	
 		///////////// affichage du rdf dans la Jtable

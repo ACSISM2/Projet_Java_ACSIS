@@ -14,14 +14,15 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
 import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class Interface extends JFrame {
 
 	public Interface () throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
-		JTable table = new JTable();
-		Traitement traite= new Traitement(); 
-		Myrdf lec_rdf= new Myrdf(); 
+		final JTable table = new JTable();
+		final Traitement traite= new Traitement(); 
+		final Myrdf lec_rdf= new Myrdf(); 
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 916, 512);
@@ -37,9 +38,12 @@ public class Interface extends JFrame {
 		mntmRDF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 			    traite.vider_Jtable(table);
-			    
+			  try{  
 				lec_rdf.affichage_rdf_Jtable(lec_rdf.lire_fichier_rdf(traite.ouvrir_fichier()),table);
-				
+			  }catch(Exception E){
+					// java.lang.NullPointerException
+					
+				}
 				
 			}
 		});

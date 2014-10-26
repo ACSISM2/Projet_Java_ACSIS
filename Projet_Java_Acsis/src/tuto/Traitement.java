@@ -19,12 +19,17 @@ public class Traitement {
 	
 	public String ouvrir_fichier()  {  
 	    // choix d'un fichier rdf 
+		 
     	String filename ;
+    	
         JFileChooser chooser=new JFileChooser();
         chooser.showOpenDialog(null);
+     
         File f=chooser.getSelectedFile();
         filename=f.getAbsolutePath();
-        return filename;
+       System.out.println(filename);
+       
+		  return filename;
 }
 
 

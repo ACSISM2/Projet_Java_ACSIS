@@ -65,13 +65,18 @@ public class int_rdf extends JFrame {
     	String filename ;
         JFileChooser chooser=new JFileChooser();
         chooser.showOpenDialog(null);
+       try{
         File f=chooser.getSelectedFile();
         filename=f.getAbsolutePath();
         
         // vider la table 
         table=vider_table (table);
         lire_fichier_rdf (filename,table);
+		}catch(Exception E){
+			// java.lang.NullPointerException
+			
 		}
+	}
 	public JTable vider_table (JTable Table)  // vider une table
 	{
 		 i=Table.getRowCount();

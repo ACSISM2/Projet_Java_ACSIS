@@ -32,9 +32,6 @@ public class int_rdf extends JFrame {
 	private JPanel panel1;
     private JTable table;
     private int i=0;
-    private Resource  subject;
-    private Property  predicate;
-    private RDFNode   object;
     
     // methode qui permet la lecture d'un fichier RDF et afficher le triples dans une table
     private void lire_fichier_rdf (String inputFileName,JTable Table){
@@ -47,17 +44,21 @@ public class int_rdf extends JFrame {
      		                                 "Fichier: " + inputFileName + " non trouvé");    
         }                                       
 	    model.read(in, null);
-	    StmtIterator iter = model.listStatements();
-		while (iter.hasNext()) {
-         Statement stmt      = iter.nextStatement(); // get next statement
-          subject   = stmt.getSubject();   // get the subject
-          predicate = stmt.getPredicate(); // get the predicate
-          object    = stmt.getObject();    // get the object
-          //remplissage de la table 
-          javax.swing.table.DefaultTableModel mod = (javax.swing.table.DefaultTableModel) Table.getModel();
-          mod.addRow(new Object[]{subject,predicate,object});
+	    affichage_rdf_table(model,table);
     }
+    private void affichage_rdf_table (Model model,JTable Table)
+    {
+    	 StmtIterator iter = model.listStatements();
+ 		while (iter.hasNext()) {
+          Statement stmt      = iter.nextStatement(); // get next statement
+          Resource subject   = stmt.getSubject();   // get the subject
+          Property predicate = stmt.getPredicate(); // get the predicate
+          RDFNode object    = stmt.getObject();    // get the object
+           //remplissage de la table 
+           javax.swing.table.DefaultTableModel mod = (javax.swing.table.DefaultTableModel) Table.getModel();
+           mod.addRow(new Object[]{subject,predicate,object});
     }
+ 		}
     // ouvrir le fichier RDF 
 	private void ouvrir_fichier(java.awt.event.ActionEvent evt)  {  
 	    // choix d'un fichier rdf 

@@ -19,7 +19,7 @@ public class Myrdf {
 	//////////recupèrè un fichier rdf a partir de son path/////////// 
 		/////////////////////////////////////////////////////
 		
-			public Model lire_fichier_rdf (String inputFileName){
+			public void lire_fichier_rdf (String inputFileName){
 				
 			
 	    	// créer un modèle vide
@@ -31,7 +31,7 @@ public class Myrdf {
 	     						"Fichier: " + inputFileName + " non trouvé");    
 	     			}                                       
 	     			model.read(in, null);
-	     			return model;
+	     			affichage_rdf_Jtable(model,Interface.table);
 		}	
 		///////////// affichage du rdf dans la Jtable
 		

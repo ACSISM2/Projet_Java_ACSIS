@@ -41,7 +41,7 @@ public class Interface extends JFrame {
 			public void actionPerformed(ActionEvent evt) {
 			   
 			  try{  
-				lec_rdf.affichage_rdf_Jtable(lec_rdf.lire_fichier_rdf(traite.ouvrir_fichier()),table);
+				lec_rdf.lire_fichier_rdf(traite.ouvrir_fichier());
 			  }catch(Exception E){
 					// java.lang.NullPointerException
 					

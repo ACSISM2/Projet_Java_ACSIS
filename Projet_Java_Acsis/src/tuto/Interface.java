@@ -1,6 +1,5 @@
 package tuto;
 import java.awt.EventQueue;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,12 +16,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import net.miginfocom.swing.MigLayout;
+import javax.swing.JTextField;
+import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class Interface extends JFrame {
         public static int i=1;
 		public static JTable table = new JTable();
 		public static Traitement traite= new Traitement(); 
 		final Myrdf lec_rdf= new Myrdf(); 
+		private JTextField textField;
 		
 	public Interface () throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		
@@ -37,7 +39,7 @@ public class Interface extends JFrame {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
-		JMenuItem mntmRDF = new JMenuItem("ouvrir");
+		JMenuItem mntmRDF = new JMenuItem("RDF");
 		mntmRDF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 			   
@@ -103,6 +105,15 @@ public class Interface extends JFrame {
 			}
 		});
 		scrollPane_2.setViewportView(table);	
+		
+		textField = new JTextField();
+		textField.setBounds(39, 86, 482, 28);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		JButton btnRecherche = new JButton("Recherche");
+		btnRecherche.setBounds(552, 86, 89, 28);
+		panel.add(btnRecherche);
 	}
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

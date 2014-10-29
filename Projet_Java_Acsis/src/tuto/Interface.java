@@ -1,5 +1,6 @@
 package tuto;
-
+import java.awt.EventQueue;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -102,5 +103,18 @@ public class Interface extends JFrame {
 			}
 		});
 		scrollPane_2.setViewportView(table);	
+	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {	
+					Interface frame = new Interface();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+		});
 	}
 }

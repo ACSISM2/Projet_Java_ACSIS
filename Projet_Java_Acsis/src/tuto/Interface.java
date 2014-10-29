@@ -37,7 +37,7 @@ public class Interface extends JFrame {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 		
-		JMenuItem mntmRDF = new JMenuItem("RDF");
+		JMenuItem mntmRDF = new JMenuItem("ouvrir");
 		mntmRDF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 			   

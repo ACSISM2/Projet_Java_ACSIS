@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -15,22 +16,20 @@ import org.apache.lucene.search.TopScoreDocCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.Version;
 
-import projet.Document;
-import projet.Interface;
-
-
 public class Recherche {
+
 	public static void Recherche_index(StandardAnalyzer analyzer,Directory index) throws IOException{
-	       // 2. requéte (de puis le textField
+	       // 2. query
 			String querystr=Interface.textField.getText().concat("*");
 
-			
+			// the "title" arg specifies the default field to use
+			// when no field is explicitly specified in the query.
 
-		
+			try{
 				@SuppressWarnings("deprecation")
 				Query q = new QueryParser(Version.LUCENE_CURRENT, "Objet", analyzer).parse(querystr);
 
-				// 3.recherche
+				// 3. search
 				int hitsPerPage = 1000;
 				IndexReader reader = DirectoryReader.open(index);
 				IndexSearcher searcher = new IndexSearcher(reader);
@@ -39,8 +38,7 @@ public class Recherche {
 				ScoreDoc[] hits = collector.topDocs().scoreDocs;
 				String testeur="";
 				int c=hits.length;
-			
-// 4. display results
+				// 4. display results
 				
 				Interface.traite.vider_Jtable(Interface.table);
 				for(int i=0;i<hits.length;++i) {
@@ -66,8 +64,12 @@ public class Recherche {
 				
 				reader.close();
 				Interface.label.setText(c + "  Resultats trouvés.");
-				
-				
-				
-	}
+			}catch(org.apache.lucene.queryparser.classic.ParseException e){
+
+				JOptionPane.showMessageDialog(null, "Ile ne faut pas commencer par "+Interface.textField.getText(), "Attention !", JOptionPane.WARNING_MESSAGE, null);
+
+			}
 }
+}
+	
+

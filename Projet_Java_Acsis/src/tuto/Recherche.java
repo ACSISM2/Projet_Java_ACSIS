@@ -18,58 +18,56 @@ import org.apache.lucene.util.Version;
 
 public class Recherche {
 
-	public static void Recherche_index(StandardAnalyzer analyzer,Directory index) throws IOException{
-	       // 2. query
-			String querystr=Interface.textField.getText().concat("*");
+	public static void Recherche_index(StandardAnalyzer analyzer,Directory index) throws IOException{	/* ***** Recherche dans l'index ***** */
 
-			// the "title" arg specifies the default field to use
-			// when no field is explicitly specified in the query.
+		String querystr=Interface.textField.getText().concat("*"); // Concatination du mot clé inséré par * 
 
-			try{
-				@SuppressWarnings("deprecation")
-				Query q = new QueryParser(Version.LUCENE_CURRENT, "Objet", analyzer).parse(querystr);
+		try{
+			@SuppressWarnings("deprecation")
+			// 1. Requête
+			Query q = new QueryParser(Version.LUCENE_CURRENT, "Objet", analyzer).parse(querystr);
 
-				// 3. search
-				int hitsPerPage = 1000;
-				IndexReader reader = DirectoryReader.open(index);
-				IndexSearcher searcher = new IndexSearcher(reader);
-				TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage, true);
-				searcher.search(q, collector);
-				ScoreDoc[] hits = collector.topDocs().scoreDocs;
-				String testeur="";
-				int c=hits.length;
-				// 4. display results
-				
-				Interface.traite.vider_Jtable(Interface.table);
-				for(int i=0;i<hits.length;++i) {
-					int docId = hits[i].doc;
-					Document d = searcher.doc(docId);
-					//	System.out.println((i + 1) + ". " + d.get("Sujet") +"||"+ "\t" + d.get("Objet")+"||"+ "\t" + d.get("Num"));
-					Interface.mod_bis = (javax.swing.table.DefaultTableModel) Interface.table.getModel();
-					
-					if(  (d.get("index").equals("index1")) && !(d.get("ligne").equals(testeur))  ){
-						Interface.mod_bis.addRow(new Object[]{d.get("Sujet"),d.get("Predicat"),d.get("Objet")});
-						
-						testeur=d.get("ligne");
-					}
-					else if(d.get("index").equals("index2") && !(d.get("ligne").equals(testeur))) {
-						Interface.mod_bis.addRow(new Object[]{d.get("Objet"),d.get("Predicat"),d.get("Sujet")});
-						
-						testeur=d.get("ligne");
-					}
-					else  c--;
-					
-					
+			// 2. Recherche
+			int hitsPerPage = 1000;
+
+			IndexReader reader = DirectoryReader.open(index);
+			IndexSearcher searcher = new IndexSearcher(reader);
+
+			TopScoreDocCollector collector = TopScoreDocCollector.create(hitsPerPage, true);
+
+			searcher.search(q, collector);
+			ScoreDoc[] hits = collector.topDocs().scoreDocs;
+			String testeur="";
+			int c=hits.length;	
+
+			Interface.traite.vider_Jtable(Interface.table);
+			for(int i=0;i<hits.length;++i) {
+				int docId = hits[i].doc;
+				Document d = searcher.doc(docId);
+				//	System.out.println((i + 1) + ". " + d.get("Sujet") +"||"+ "\t" + d.get("Objet")+"||"+ "\t" + d.get("Num"));
+				Interface.mod_bis = (javax.swing.table.DefaultTableModel) Interface.table.getModel();
+
+				if(  (d.get("index").equals("index1")) && !(d.get("ligne").equals(testeur))  ){
+					Interface.mod_bis.addRow(new Object[]{d.get("Sujet"),d.get("Predicat"),d.get("Objet")});
+
+					testeur=d.get("ligne");
 				}
-				
-				reader.close();
-				Interface.label.setText(c + "  Resultats trouvés.");
-			}catch(org.apache.lucene.queryparser.classic.ParseException e){
+				else if(d.get("index").equals("index2") && !(d.get("ligne").equals(testeur))) {
+					Interface.mod_bis.addRow(new Object[]{d.get("Objet"),d.get("Predicat"),d.get("Sujet")});
 
-				JOptionPane.showMessageDialog(null, "Ile ne faut pas commencer par "+Interface.textField.getText(), "Attention !", JOptionPane.WARNING_MESSAGE, null);
-
+					testeur=d.get("ligne");
+				}
+				else  c--;
 			}
+
+			reader.close();
+			Interface.label.setText(c + "  Resultats trouvés."); // Nombre de résultats trouvés 
+		}catch(org.apache.lucene.queryparser.classic.ParseException e){
+			//	L'exception est utilisée pour empêcher les redondances des résultats affichés 
+			JOptionPane.showMessageDialog(null, "Ile ne faut pas commencer par "+Interface.textField.getText(), "Attention !", JOptionPane.WARNING_MESSAGE, null);
+
+		}
+	}
 }
-}
-	
+
 

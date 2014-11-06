@@ -13,17 +13,16 @@ import com.hp.hpl.jena.util.FileManager;
 
 public class Myrdf {
 
-	//////////recupèrè un fichier rdf a partir de son path/////////// 
-	/////////////////////////////////////////////////////
+	public void lire_fichier_rdf (String inputFileName){ /* *****Récupération d'un fichier RDF ***** */
 
-	public void lire_fichier_rdf (String inputFileName){
 		Interface.label.setText("");
 		Interface.textField.setText("");
+
+		// Creation d'un Model vide
 		Model model = ModelFactory.createDefaultModel();
 		Interface.model_bis=model;
-		// créer un modèle vide
-		//Model model = ModelFactory.createDefaultModel();
-		// utiliser le FileManager pour trouver le fichier d'entrée
+
+		// Utiliser le FileManager pour trouver le fichier d'entrée
 		InputStream in = FileManager.get().open( inputFileName );
 		if (in == null) {
 			throw new IllegalArgumentException(
@@ -34,20 +33,19 @@ public class Myrdf {
 	}	
 
 
-	///////////// affichage du rdf dans la Jtable
+	public static void affichage_rdf_Jtable (Model model,JTable Table)	{	/* *****Affichage d'un fichier RDF dans la Jtable***** */
 
-	public static void affichage_rdf_Jtable (Model model,JTable Table)
-	{
-		//on vide la table au moment de l'affiche
+
 		Interface.traite.vider_Jtable(Table);
-		//--------------------------------------------------------------
+
 		StmtIterator iter = model.listStatements();
 		while (iter.hasNext()) {
-			Statement stmt      = iter.nextStatement();    // get next statement
+			Statement stmt      = iter.nextStatement();     // get next statement
 			Resource subject   = stmt.getSubject();        // get the subject
 			Property predicate = stmt.getPredicate();     // get the predicate
 			RDFNode object    = stmt.getObject();        // get the object
-			//remplissage de la table 
+
+			// Remplissage de la table 
 			javax.swing.table.DefaultTableModel mod = (javax.swing.table.DefaultTableModel) Table.getModel();
 			mod.addRow(new Object[]{subject,predicate,object});
 		}

@@ -28,43 +28,45 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import java.awt.Font;
 @SuppressWarnings("serial")
+
 public class Interface extends JFrame {
+
 	public static Model model = ModelFactory.createDefaultModel();
 	public static Model model_bis = ModelFactory.createDefaultModel();
+	public static Myrdf lec_rdf= new Myrdf();
+
 	public static JTable table = new JTable();
-	public static Traitement traite= new Traitement(); 
-	public static Myrdf lec_rdf= new Myrdf(); 
-	public static JTextField textField;
 	public static JLabel label = new JLabel("");
 	public static JLabel label_1 = new JLabel("");
+	public static JTextField textField;
+	public static Traitement traite= new Traitement(); 
+	public static DefaultTableModel modeltable;
 	public static javax.swing.table.DefaultTableModel mod_bis;
-	public static DefaultTableModel modeltable; 
+
 	public static int i ;
+
 	@SuppressWarnings("deprecation")
 	public Interface () throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 916, 512);
-		//Genre application windows sur l'interface
+		// Apparence d'une application Windows
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+
+		// 1. Menu
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 
 		JMenuItem mntmRDF = new JMenuItem("RDF");
 		mntmRDF.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-
 				try{  
 					lec_rdf.lire_fichier_rdf(traite.ouvrir_fichier());
 				}catch(Exception E){
 					// java.lang.NullPointerException
-
 				}
-
 			}
 		});
 		mnFile.add(mntmRDF);
@@ -79,6 +81,7 @@ public class Interface extends JFrame {
 
 		JMenu mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
+
 		JPanel  panel1 = new JPanel();
 		panel1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(panel1);
@@ -102,8 +105,8 @@ public class Interface extends JFrame {
 				},
 				new String[] {
 						"Sujet", "Predicat", "Objet"
-				}
-				) {
+				}) 
+		{
 			@SuppressWarnings("rawtypes")
 			Class[] columnTypes = new Class[] {
 				String.class, Object.class, String.class, String.class
@@ -127,6 +130,7 @@ public class Interface extends JFrame {
 		textField.setColumns(10);
 		textField.disable();
 		JButton btnRecherche = new JButton("Recherche");
+
 		btnRecherche.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -142,6 +146,7 @@ public class Interface extends JFrame {
 				}
 			}
 		});
+
 		btnRecherche.setBounds(552, 86, 89, 28);
 		panel.add(btnRecherche);
 
@@ -149,14 +154,13 @@ public class Interface extends JFrame {
 		label.setBounds(562, 123, 222, 14);
 		panel.add(label);
 		label_1.setFont(new Font("Arial", Font.ITALIC, 10));
-
-
 		label_1.setBounds(60, 61, 190, 14);
-
 		panel.add(label_1);
 	}
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+
 			public void run() {
 				try {	
 					Interface frame = new Interface();
